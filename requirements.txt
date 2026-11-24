@@ -1,0 +1,4 @@
+# Haris Scanner, dashboard, evidence and Haris API use only the Python standard library.
+# Al-Tu'm Telegram bot:
+python-telegram-bot>=21.6,<23
+# Optional, for evidence screenshots:  pip install playwright && playwright install chromium

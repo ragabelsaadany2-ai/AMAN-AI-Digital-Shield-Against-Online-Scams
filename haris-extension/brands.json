@@ -1,0 +1,628 @@
+{
+ "_note": "Reference list of brands, their official domains and URL tokens. A page or URL that claims one of these brands on any other domain is flagged. Verify every domain and add official helplines with the organisation before real use. The first entry is a fictional brand used only by the demo pages.",
+ "brands": [
+  {
+   "id": "falcon_demo",
+   "name_ar": "فالكون إكسبريس",
+   "name_en": "Falcon Express",
+   "category": "shipping",
+   "demo": true,
+   "aliases": [
+    "فالكون إكسبريس",
+    "falcon express"
+   ],
+   "domains": [
+    "falcon-express.example"
+   ],
+   "tokens": [
+    "falconexpress",
+    "falcon-express"
+   ],
+   "helplines": [
+    "+97180032566"
+   ]
+  },
+  {
+   "id": "aramex",
+   "name_ar": "أرامكس",
+   "name_en": "Aramex",
+   "category": "shipping",
+   "aliases": [
+    "أرامكس",
+    "ارامكس",
+    "aramex"
+   ],
+   "domains": [
+    "aramex.com"
+   ],
+   "tokens": [
+    "aramex"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "dhl",
+   "name_ar": "دي إتش إل",
+   "name_en": "DHL",
+   "category": "shipping",
+   "aliases": [
+    "دي إتش إل",
+    "dhl"
+   ],
+   "domains": [
+    "dhl.com"
+   ],
+   "tokens": [
+    "dhl"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "fedex",
+   "name_ar": "فيدكس",
+   "name_en": "FedEx",
+   "category": "shipping",
+   "aliases": [
+    "فيدكس",
+    "fedex"
+   ],
+   "domains": [
+    "fedex.com"
+   ],
+   "tokens": [
+    "fedex"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "ups",
+   "name_ar": "يو بي إس",
+   "name_en": "UPS",
+   "category": "shipping",
+   "aliases": [
+    "يو بي إس"
+   ],
+   "domains": [
+    "ups.com"
+   ],
+   "tokens": [
+    "ups"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "emirates_post",
+   "name_ar": "بريد الإمارات",
+   "name_en": "Emirates Post",
+   "category": "shipping",
+   "aliases": [
+    "بريد الإمارات",
+    "بريد الامارات",
+    "emirates post"
+   ],
+   "domains": [
+    "emiratespost.ae"
+   ],
+   "tokens": [
+    "emiratespost",
+    "emirates-post",
+    "epost"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "enbd",
+   "name_ar": "بنك الإمارات دبي الوطني",
+   "name_en": "Emirates NBD",
+   "category": "bank",
+   "aliases": [
+    "الإمارات دبي الوطني",
+    "الامارات دبي الوطني",
+    "emirates nbd"
+   ],
+   "domains": [
+    "emiratesnbd.com"
+   ],
+   "tokens": [
+    "emiratesnbd",
+    "enbd"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "adcb",
+   "name_ar": "بنك أبوظبي التجاري",
+   "name_en": "ADCB",
+   "category": "bank",
+   "aliases": [
+    "بنك أبوظبي التجاري",
+    "بنك ابوظبي التجاري",
+    "adcb"
+   ],
+   "domains": [
+    "adcb.com"
+   ],
+   "tokens": [
+    "adcb"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "fab",
+   "name_ar": "بنك أبوظبي الأول",
+   "name_en": "First Abu Dhabi Bank",
+   "category": "bank",
+   "aliases": [
+    "بنك أبوظبي الأول",
+    "بنك ابوظبي الاول",
+    "first abu dhabi bank"
+   ],
+   "domains": [
+    "bankfab.com"
+   ],
+   "tokens": [
+    "bankfab"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "mashreq",
+   "name_ar": "بنك المشرق",
+   "name_en": "Mashreq",
+   "category": "bank",
+   "aliases": [
+    "بنك المشرق",
+    "mashreq"
+   ],
+   "domains": [
+    "mashreq.com"
+   ],
+   "tokens": [
+    "mashreq"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "adib",
+   "name_ar": "مصرف أبوظبي الإسلامي",
+   "name_en": "ADIB",
+   "category": "bank",
+   "aliases": [
+    "مصرف أبوظبي الإسلامي",
+    "مصرف ابوظبي الاسلامي",
+    "adib"
+   ],
+   "domains": [
+    "adib.ae"
+   ],
+   "tokens": [
+    "adib"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "dib",
+   "name_ar": "بنك دبي الإسلامي",
+   "name_en": "Dubai Islamic Bank",
+   "category": "bank",
+   "aliases": [
+    "بنك دبي الإسلامي",
+    "بنك دبي الاسلامي",
+    "dubai islamic bank"
+   ],
+   "domains": [
+    "dib.ae"
+   ],
+   "tokens": [
+    "dib"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "adpolice",
+   "name_ar": "شرطة أبوظبي",
+   "name_en": "Abu Dhabi Police",
+   "category": "government",
+   "aliases": [
+    "شرطة أبوظبي",
+    "شرطة ابوظبي",
+    "abu dhabi police"
+   ],
+   "domains": [
+    "adpolice.gov.ae"
+   ],
+   "tokens": [
+    "adpolice"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "dubaipolice",
+   "name_ar": "شرطة دبي",
+   "name_en": "Dubai Police",
+   "category": "government",
+   "aliases": [
+    "شرطة دبي",
+    "dubai police"
+   ],
+   "domains": [
+    "dubaipolice.gov.ae"
+   ],
+   "tokens": [
+    "dubaipolice"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "icp",
+   "name_ar": "الهيئة الاتحادية للهوية والجنسية",
+   "name_en": "ICP",
+   "category": "government",
+   "aliases": [
+    "الهيئة الاتحادية للهوية والجنسية",
+    "الهوية والجنسية"
+   ],
+   "domains": [
+    "icp.gov.ae"
+   ],
+   "tokens": [
+    "icp",
+    "emiratesid"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "tamm",
+   "name_ar": "تم",
+   "name_en": "TAMM",
+   "category": "government",
+   "aliases": [
+    "tamm"
+   ],
+   "domains": [
+    "tamm.abudhabi"
+   ],
+   "tokens": [
+    "tamm"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "rta",
+   "name_ar": "هيئة الطرق والمواصلات",
+   "name_en": "RTA",
+   "category": "government",
+   "aliases": [
+    "هيئة الطرق والمواصلات",
+    "roads and transport authority"
+   ],
+   "domains": [
+    "rta.ae"
+   ],
+   "tokens": [
+    "rta"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "salik",
+   "name_ar": "سالك",
+   "name_en": "Salik",
+   "category": "government",
+   "aliases": [
+    "سالك",
+    "salik"
+   ],
+   "domains": [
+    "salik.ae"
+   ],
+   "tokens": [
+    "salik"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "etisalat",
+   "name_ar": "اتصالات",
+   "name_en": "e& (etisalat)",
+   "category": "telecom",
+   "aliases": [
+    "etisalat",
+    "اتصالات من e&"
+   ],
+   "domains": [
+    "etisalat.ae",
+    "eand.com"
+   ],
+   "tokens": [
+    "etisalat",
+    "eand"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "du",
+   "name_ar": "دو",
+   "name_en": "du",
+   "category": "telecom",
+   "aliases": [
+    "شركة دو",
+    "du telecom"
+   ],
+   "domains": [
+    "du.ae"
+   ],
+   "tokens": [
+    "du"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "uaepass",
+   "name_ar": "الهوية الرقمية UAE PASS",
+   "name_en": "UAE PASS",
+   "category": "government",
+   "aliases": [
+    "uae pass",
+    "uaepass",
+    "الهوية الرقمية"
+   ],
+   "domains": [
+    "uaepass.ae"
+   ],
+   "tokens": [
+    "uaepass",
+    "uae-pass"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "moi",
+   "name_ar": "وزارة الداخلية",
+   "name_en": "Ministry of Interior",
+   "category": "government",
+   "aliases": [
+    "وزارة الداخلية",
+    "ministry of interior"
+   ],
+   "domains": [
+    "moi.gov.ae"
+   ],
+   "tokens": [
+    "moi"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "uae_gov",
+   "name_ar": "البوابة الرسمية لحكومة الإمارات",
+   "name_en": "UAE Government portal",
+   "category": "government",
+   "aliases": [
+    "البوابة الرسمية لحكومة الإمارات",
+    "u.ae"
+   ],
+   "domains": [
+    "u.ae"
+   ],
+   "tokens": [],
+   "helplines": []
+  },
+  {
+   "id": "paypal",
+   "name_ar": "باي بال",
+   "name_en": "PayPal",
+   "category": "global",
+   "aliases": [
+    "PayPal"
+   ],
+   "domains": [
+    "paypal.com"
+   ],
+   "tokens": [
+    "paypal"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "microsoft",
+   "name_ar": "مايكروسوفت",
+   "name_en": "Microsoft",
+   "category": "global",
+   "aliases": [
+    "Microsoft"
+   ],
+   "domains": [
+    "microsoft.com",
+    "live.com",
+    "office.com",
+    "microsoftonline.com",
+    "outlook.com",
+    "office365.com"
+   ],
+   "tokens": [
+    "microsoft",
+    "office365",
+    "outlook",
+    "onedrive",
+    "sharepoint"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "apple",
+   "name_ar": "آبل",
+   "name_en": "Apple",
+   "category": "global",
+   "aliases": [
+    "Apple"
+   ],
+   "domains": [
+    "apple.com",
+    "icloud.com"
+   ],
+   "tokens": [
+    "appleid",
+    "icloud",
+    "apple"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "google",
+   "name_ar": "جوجل",
+   "name_en": "Google",
+   "category": "global",
+   "aliases": [
+    "Google"
+   ],
+   "domains": [
+    "google.com",
+    "gmail.com",
+    "youtube.com",
+    "google.ae"
+   ],
+   "tokens": [
+    "google",
+    "gmail"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "netflix",
+   "name_ar": "نتفليكس",
+   "name_en": "Netflix",
+   "category": "global",
+   "aliases": [
+    "Netflix"
+   ],
+   "domains": [
+    "netflix.com"
+   ],
+   "tokens": [
+    "netflix"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "amazon",
+   "name_ar": "أمازون",
+   "name_en": "Amazon",
+   "category": "global",
+   "aliases": [
+    "Amazon"
+   ],
+   "domains": [
+    "amazon.com",
+    "amazon.ae"
+   ],
+   "tokens": [
+    "amazon"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "meta",
+   "name_ar": "فيسبوك",
+   "name_en": "Meta / Facebook",
+   "category": "global",
+   "aliases": [
+    "Meta"
+   ],
+   "domains": [
+    "facebook.com",
+    "instagram.com",
+    "whatsapp.com",
+    "whatsapp.net",
+    "meta.com"
+   ],
+   "tokens": [
+    "facebook",
+    "instagram",
+    "whatsapp"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "binance",
+   "name_ar": "بينانس",
+   "name_en": "Binance",
+   "category": "global",
+   "aliases": [
+    "Binance"
+   ],
+   "domains": [
+    "binance.com"
+   ],
+   "tokens": [
+    "binance"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "coinbase",
+   "name_ar": "كوين بيس",
+   "name_en": "Coinbase",
+   "category": "global",
+   "aliases": [
+    "Coinbase"
+   ],
+   "domains": [
+    "coinbase.com"
+   ],
+   "tokens": [
+    "coinbase"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "metamask",
+   "name_ar": "ميتاماسك",
+   "name_en": "MetaMask",
+   "category": "global",
+   "aliases": [
+    "MetaMask"
+   ],
+   "domains": [
+    "metamask.io"
+   ],
+   "tokens": [
+    "metamask"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "linkedin",
+   "name_ar": "لينكدإن",
+   "name_en": "LinkedIn",
+   "category": "global",
+   "aliases": [
+    "LinkedIn"
+   ],
+   "domains": [
+    "linkedin.com"
+   ],
+   "tokens": [
+    "linkedin"
+   ],
+   "helplines": []
+  },
+  {
+   "id": "telegram",
+   "name_ar": "تيليجرام",
+   "name_en": "Telegram",
+   "category": "global",
+   "aliases": [
+    "Telegram"
+   ],
+   "domains": [
+    "telegram.org",
+    "t.me"
+   ],
+   "tokens": [
+    "telegram"
+   ],
+   "helplines": []
+  }
+ ]
+}

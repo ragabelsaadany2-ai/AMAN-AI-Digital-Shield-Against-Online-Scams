@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الطُّعم · لوحة تحكم الشرطة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700;800;900&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="/static/vis-network.min.js"></script>
+<script>if (typeof vis === "undefined") document.write('<script src="https://unpkg.com/vis-network@9.1.9/standalone/umd/vis-network.min.js"><\/script>');</script>
+<style>
+  :root{
+    --navy:#0F1B33; --navy2:#16274A; --navy3:#24395F; --ink:#E9EEF6; --muted:#9FB0CB;
+    --gold:#E3B04B; --gold-d:#C08A1E; --red:#E5484D; --green:#3FB68B; --bg:#0B1426;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:'Tajawal',Tahoma,sans-serif}
+  h1,h2,h3,.num{font-family:'Cairo',Tahoma,sans-serif;margin:0}
+  .app{display:grid;grid-template-rows:auto auto 1fr minmax(300px,38vh);gap:14px;height:100vh;padding:16px 20px}
+  header{display:flex;align-items:center;gap:16px}
+  header h1{font-size:28px;font-weight:900}
+  header h1 span{color:var(--gold)}
+  .chip{padding:4px 14px;border-radius:99px;background:var(--navy2);border:1px solid var(--navy3);font-size:14px;color:var(--muted)}
+  .chip.llm{color:var(--gold);border-color:var(--gold-d)}
+  .live{display:flex;align-items:center;gap:8px;margin-inline-start:auto;color:var(--muted);font-size:15px}
+  .dot{width:10px;height:10px;border-radius:50%;background:var(--green);animation:pulse 1.6s infinite}
+  @keyframes pulse{50%{opacity:.25}}
+  .stats{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+  .stat{background:var(--navy);border:1px solid var(--navy3);border-radius:16px;padding:12px 18px}
+  .stat .num{font-size:36px;font-weight:900;color:var(--gold);line-height:1.2}
+  .stat .lbl{font-size:15px;color:var(--muted)}
+  .main{display:grid;grid-template-columns:22% 1fr 34%;gap:14px;min-height:0}
+  .bottom{display:grid;grid-template-columns:1fr 34%;gap:14px;min-height:0}
+  .panel{background:var(--navy);border:1px solid var(--navy3);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;min-height:0}
+  .panel h2{font-size:18px;font-weight:800;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:10px}
+  .panel h2 .sub{font-family:'Tajawal';font-weight:400;font-size:14px;color:var(--muted)}
+  .scroll{overflow:auto;min-height:0;flex:1}
+  .case{padding:10px 12px;border-radius:12px;background:var(--navy2);margin-bottom:8px;cursor:pointer;border:2px solid transparent}
+  .case.sel{border-color:var(--gold)}
+  .case .t{display:flex;justify-content:space-between;font-family:'Cairo';font-weight:800}
+  .case .m{font-size:13px;color:var(--muted);margin-top:2px}
+  .badge{font-size:12px;padding:1px 8px;border-radius:99px;background:var(--navy3);color:var(--ink);font-family:'Tajawal';font-weight:500}
+  .badge.high{background:var(--red)} .badge.mid{background:var(--gold-d)} .badge.act{background:var(--green)}
+  .badge.net{background:#7A5AF8}
+  .chat{display:flex;flex-direction:column;gap:10px;padding:4px}
+  .b{max-width:78%;padding:10px 14px;border-radius:16px;font-size:18px;line-height:1.55;animation:in .35s ease-out}
+  .b .who{display:block;font-size:12px;opacity:.75;margin-bottom:2px;font-weight:700}
+  .b.scammer{align-self:flex-start;background:#E4E8EF;color:#1B2740;border-start-start-radius:4px}
+  .b.bait{align-self:flex-end;background:var(--gold);color:var(--navy);border-start-end-radius:4px}
+  .b.reported{align-self:center;background:var(--navy3);color:var(--ink);max-width:92%}
+  .b.haris{align-self:center;background:#1F7A6F;color:#fff;max-width:92%}
+  @keyframes in{from{opacity:0;transform:translateY(8px)}}
+  .empty{color:var(--muted);text-align:center;margin:auto;font-size:16px}
+  .ent{background:var(--navy2);border-radius:12px;padding:10px 14px;margin-bottom:10px;border:2px solid transparent}
+  .ent.fresh{animation:flash 1.2s ease-out 3;border-color:var(--gold)}
+  @keyframes flash{0%{box-shadow:0 0 0 0 rgba(227,176,75,.8)}100%{box-shadow:0 0 0 14px rgba(227,176,75,0)}}
+  .ent .l{font-size:13px;color:var(--muted);display:flex;gap:8px;align-items:center}
+  .ent .v{font-family:'Cairo';font-weight:800;font-size:22px;direction:ltr;text-align:right;word-break:break-all}
+  .ent .v.ar{direction:rtl}
+  .ok{color:var(--green)} .warn{color:var(--gold)}
+  .links{margin-top:4px;font-size:14px;color:#C9B8FF}
+  .btn{margin-top:auto;background:var(--gold);color:var(--navy);border:0;border-radius:12px;padding:12px;font-family:'Cairo';font-weight:800;font-size:17px;cursor:pointer}
+  .btn:disabled{opacity:.4;cursor:default}
+  #graph{flex:1;min-height:0;border-radius:12px;background:#0D1830}
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  td,th{padding:6px 8px;border-bottom:1px solid var(--navy3);text-align:right}
+  th{color:var(--muted);font-weight:500;font-size:13px}
+  td.v{direction:ltr;text-align:right;font-family:'Cairo';font-weight:700}
+  tr.shared td{color:var(--gold)}
+  .follow{font-size:13px;color:var(--muted);cursor:pointer;margin-inline-start:auto;font-family:'Tajawal';font-weight:500}
+  .follow.on{color:var(--green)}
+  .legend{display:flex;gap:14px;font-size:13px;color:var(--muted);flex-wrap:wrap;font-family:'Tajawal';font-weight:400}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-inline-end:4px}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>الطُّعم <span>·</span> لوحة تحكم الشرطة</h1>
+    <span class="chip" id="mode">…</span>
+    <div class="live"><span class="dot"></span><span id="clock"></span></div>
+  </header>
+
+  <section class="stats">
+    <div class="stat"><div class="num" id="s-cases">0</div><div class="lbl">قضايا</div></div>
+    <div class="stat"><div class="num" id="s-active">0</div><div class="lbl">محادثات جارية مع محتالين</div></div>
+    <div class="stat"><div class="num" id="s-ids">0</div><div class="lbl">معرّفات مستخرجة</div></div>
+    <div class="stat"><div class="num" id="s-nets">0</div><div class="lbl">شبكات مكتشفة</div></div>
+    <div class="stat"><div class="num" id="s-haris">0</div><div class="lbl">صفحات مشبوهة رصدها حارس</div></div>
+    <div class="stat"><div class="num" id="s-min">0</div><div class="lbl">دقائق أُهدرت من وقت المحتالين</div></div>
+  </section>
+
+  <section class="main">
+    <div class="panel"><h2>القضايا</h2><div class="scroll" id="cases"></div></div>
+    <div class="panel">
+      <h2 id="chat-title">المحادثة <span class="follow on" id="follow">● متابعة تلقائية</span></h2>
+      <div class="scroll" id="chat-box"><div class="chat" id="chat"><p class="empty">بانتظار أول رسالة من محتال…</p></div></div>
+    </div>
+    <div class="panel">
+      <h2>استُخرج تلقائياً <span class="sub" id="case-meta"></span></h2>
+      <div class="scroll" id="ents"><p class="empty">لا شيء بعد</p></div>
+      <button class="btn" id="report" disabled>إنشاء بلاغ وطلب تجميد</button>
+    </div>
+  </section>
+
+  <section class="bottom">
+    <div class="panel">
+      <h2>خريطة الشبكات
+        <span class="legend">
+          <span><i style="background:#3B4F75"></i>قضية</span><span><i style="background:#E3B04B"></i>آيبان</span>
+          <span><i style="background:#5B8DEF"></i>هاتف</span><span><i style="background:#9AA7BD"></i>رابط</span>
+          <span><i style="background:#3FB68B"></i>اسم مستفيد</span><span><i style="background:#B07CFF"></i>محفظة / حساب</span>
+        </span>
+      </h2>
+      <div id="graph"></div>
+    </div>
+    <div class="panel"><h2>المعرّفات عبر كل القضايا</h2>
+      <div class="scroll"><table><thead><tr><th>النوع</th><th>القيمة</th><th>القضايا</th></tr></thead><tbody id="idtable"></tbody></table></div>
+    </div>
+  </section>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let selected = null, follow = true, lastChatSig = '', lastGraphSig = '', network = null, nodesDS = null, edgesDS = null;
+
+$('follow').onclick = () => { follow = !follow; $('follow').classList.toggle('on', follow);
+  $('follow').textContent = follow ? '● متابعة تلقائية' : '○ متابعة تلقائية'; tick(); };
+$('report').onclick = () => selected && window.open('/report?id=' + selected, '_blank');
+setInterval(() => $('clock').textContent = new Date().toLocaleTimeString('ar-AE'), 1000);
+
+function riskClass(r){ return r >= 60 ? 'high' : r >= 35 ? 'mid' : ''; }
+
+function renderCases(cases){
+  $('cases').innerHTML = cases.map(c => `
+    <div class="case ${c.id === selected ? 'sel' : ''}" data-id="${c.id}">
+      <div class="t"><span>#${c.id} · ${esc(c.persona)}</span>
+        <span>${c.status === 'active' ? '<span class="badge act">جارية</span>' : c.source === 'seed' ? '<span class="badge">سابقة</span>' : c.source === 'haris' ? '<span class="badge" style="background:#1F7A6F">حارس</span>' : ''}</span></div>
+      <div class="m">${esc(c.scam_label)} · <span class="badge ${riskClass(c.risk)}">${esc(c.risk_label)}</span>
+        · ${c.entities} معرّف ${c.network ? `· <span class="badge net">شبكة ${c.network}</span>` : ''}</div>
+    </div>`).join('') || '<p class="empty">لا قضايا بعد</p>';
+  document.querySelectorAll('.case').forEach(el => el.onclick = () => {
+    selected = +el.dataset.id; follow = false; $('follow').classList.remove('on');
+    $('follow').textContent = '○ متابعة تلقائية'; lastChatSig = ''; tick(); });
+}
+
+function renderCase(d){
+  const sig = d.id + ':' + d.messages.length + ':' + d.entities.length + ':' + d.risk;
+  if (sig === lastChatSig) return;
+  const newChat = !lastChatSig.startsWith(d.id + ':');
+  lastChatSig = sig;
+  const who = {scammer:'المحتال', bait:'الطُّعم · ' + d.persona, reported:'رسالة مُبلَّغ عنها', haris:'حارس · إضافة المتصفح'};
+  $('chat-title').firstChild.textContent = `المحادثة #${d.id} `;
+  $('chat').innerHTML = d.messages.map((m, i) =>
+    `<div class="b ${m.role}" style="${newChat ? 'animation:none' : (i < d.messages.length - 2 ? 'animation:none' : '')}"><span class="who">${esc(who[m.role] || m.role)}</span>${esc(m.text)}</div>`).join('')
+    || '<p class="empty">لا رسائل</p>';
+  $('chat-box').scrollTop = $('chat-box').scrollHeight;
+  const now = Date.now() / 1000;
+  $('case-meta').textContent = `#${d.id} · ${d.scam_label} · خطورة ${d.risk_label} (${d.risk})`;
+  $('ents').innerHTML = d.entities.map(e => {
+    const fresh = now - e.ts < 8;
+    const check = e.type === 'iban' ? (e.valid ? '<span class="ok">✓ رقم تحقق صالح</span>' : '<span class="warn">⚠ رقم تحقق خاطئ</span>') : '';
+    const ar = /[؀-ۿ]/.test(e.display) ? 'ar' : '';
+    const links = e.linked.length ? `<div class="links">🕸 مرتبط بالقضايا: ${e.linked.map(i => '#' + i).join('، ')}</div>` : '';
+    return `<div class="ent ${fresh ? 'fresh' : ''}"><div class="l">${esc(e.label)} ${check}</div><div class="v ${ar}">${esc(e.display)}</div>${links}</div>`;
+  }).join('') || '<p class="empty">لا شيء بعد</p>';
+  $('report').disabled = false;
+}
+
+const COLORS = {case:'#3B4F75', iban:'#E3B04B', phone:'#5B8DEF', url:'#9AA7BD', beneficiary:'#3FB68B',
+                wallet:'#B07CFF', email:'#B07CFF', tg_handle:'#B07CFF', tg_account:'#B07CFF'};
+const SHAPES = {case:'dot', iban:'diamond', phone:'dot', url:'triangle', beneficiary:'square'};
+
+function renderGraph(g){
+  if (typeof vis === 'undefined') { $('graph').innerHTML = '<p class="empty" style="padding:40px">الخريطة تحتاج اتصالاً بالإنترنت لتحميل مكتبة الرسم.</p>'; return; }
+  const sig = JSON.stringify(g);
+  if (sig === lastGraphSig) return;
+  lastGraphSig = sig;
+  const nodes = g.nodes.map(n => ({
+    id: n.id, label: n.label, title: n.title, shape: SHAPES[n.group] || 'star',
+    size: n.group === 'case' ? 16 : n.shared ? 26 : 16,
+    color: {background: COLORS[n.group] || '#B07CFF', border: n.fresh ? '#FF5C5C' : n.active ? '#3FB68B' : '#0D1830'},
+    borderWidth: n.fresh ? 5 : n.active ? 3 : 1,
+    font: {color: '#E9EEF6', size: n.group === 'case' ? 14 : 13, face: 'Cairo', strokeWidth: 3, strokeColor: '#0D1830'},
+  }));
+  const edges = g.edges.map(e => ({id: e.from + '>' + e.to, from: e.from, to: e.to, color: {color: '#3B4F75'}, width: 2}));
+  if (!network) {
+    nodesDS = new vis.DataSet(nodes); edgesDS = new vis.DataSet(edges);
+    network = new vis.Network($('graph'), {nodes: nodesDS, edges: edgesDS}, {
+      physics: {solver: 'forceAtlas2Based', forceAtlas2Based: {gravitationalConstant: -60, springLength: 90}, stabilization: {iterations: 120}},
+      interaction: {hover: true}, layout: {randomSeed: 7}});
+    network.on('click', p => { const id = p.nodes[0]; if (id && id.startsWith('c')) { selected = +id.slice(1); follow = false; lastChatSig = ''; tick(); } });
+  } else {
+    const nIds = new Set(nodes.map(n => n.id)), eIds = new Set(edges.map(e => e.id));
+    nodesDS.remove(nodesDS.getIds().filter(id => !nIds.has(id))); edgesDS.remove(edgesDS.getIds().filter(id => !eIds.has(id)));
+    nodesDS.update(nodes); edgesDS.update(edges);
+  }
+}
+
+function renderIds(ids){
+  $('idtable').innerHTML = ids.slice(0, 60).map(i =>
+    `<tr class="${i.count > 1 ? 'shared' : ''}"><td>${esc(i.label)}</td><td class="v">${esc(i.display)}</td><td>${i.cases.map(c => '#' + c).join(' ')}</td></tr>`).join('');
+}
+
+async function tick(){
+  try {
+    const st = await (await fetch('/api/state')).json();
+    $('mode').textContent = st.mode === 'llm' ? 'الردود: نموذج لغوي' : 'الردود: نصوص جاهزة (بدون اتصال)';
+    $('mode').classList.toggle('llm', st.mode === 'llm');
+    $('s-cases').textContent = st.stats.cases; $('s-active').textContent = st.stats.active;
+    $('s-ids').textContent = st.stats.identifiers; $('s-nets').textContent = st.stats.networks;
+    $('s-min').textContent = st.stats.minutes; $('s-haris').textContent = st.stats.haris;
+    if (follow) {
+      const live = st.cases.filter(c => c.source !== 'seed');
+      if (live.length) selected = live[0].id; else if (st.cases.length && selected === null) selected = st.cases[0].id;
+    }
+    renderCases(st.cases); renderGraph(st.graph); renderIds(st.identifiers);
+    if (selected !== null) {
+      const r = await fetch('/api/case?id=' + selected);
+      if (r.ok) renderCase(await r.json());
+    }
+  } catch (e) { console.warn(e); }
+}
+tick(); setInterval(tick, 1500);
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head><meta charset="utf-8"><title>صفحات عرض حارس</title>
+<style>body{font-family:Tahoma,Arial,sans-serif;max-width:720px;margin:40px auto;padding:0 24px;line-height:1.9;color:#1B2740}
+h1{color:#1F7A6F} code{background:#EEF1F6;padding:2px 6px;border-radius:4px;direction:ltr;display:inline-block}</style></head>
+<body>
+<h1>صفحات عرض «حارس»</h1>
+<p>كل الصفحات هنا تستخدم علامة شحن وهمية اسمها «فالكون إكسبريس» (Falcon Express)، ونطاقها المعتمد في مرجع حارس هو <code>falcon-express.example</code>. ولا يرسل أي نموذج فيها أي بيانات.</p>
+<ol>
+  <li><a href="/demo/search?q=تتبع شحنة">صفحة بحث: «تتبع شحنة»</a> ← تسجّل سياق الرحلة.</li>
+  <li><a href="/demo/falcon-track">صفحة احتيال: تدّعي أنها فالكون إكسبريس وتطلب كلمة مرور البريد</a> ← يجب أن يظهر تنبيه حارس.</li>
+  <li><a href="/demo/falcon-clean">صفحة سليمة: تطلب رقم التتبع فقط</a> ← لا يجب أن يظهر تنبيه.</li>
+</ol>
+<p>لحظة الدمج: أرسل من «المحتال» في تيليجرام رسالة فيها الرابط <code>http://127.0.0.1:8080/demo/falcon-track</code>، ثم افتحه في المتصفح.</p>
+</body></html>

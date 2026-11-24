@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>بحث تجريبي</title>
+<style>
+  body{margin:0;font-family:Tahoma,Arial,sans-serif;background:#fff;color:#202124}
+  .top{padding:20px 32px;border-bottom:1px solid #E5E7EB;display:flex;gap:16px;align-items:center}
+  .logo{font-weight:bold;font-size:22px;color:#1F7A6F}
+  form{flex:1;max-width:600px} input{width:100%;padding:11px 18px;border:1px solid #D1D5DB;border-radius:24px;font-size:16px;box-sizing:border-box}
+  main{max-width:680px;padding:20px 32px}
+  .r{margin:22px 0} .r small{color:#4B5563} .r a{display:block;font-size:20px;color:#1A0DAB;text-decoration:none;margin:3px 0}
+  .ad{font-weight:bold;color:#202124;font-size:13px}
+  footer{color:#9CA3AF;font-size:12px;padding:24px 32px}
+</style>
+</head>
+<body>
+<div class="top"><span class="logo">بحث تجريبي</span>
+  <form action="/demo/search"><input name="q" id="q" value="تتبع شحنة"></form></div>
+<main>
+  <div class="r"><span class="ad">إعلان ·</span> <small>falcon-express-delivery.top</small>
+    <a href="/demo/falcon-track">فالكون إكسبريس | شحنتك محتجزة، أكّد بياناتك الآن</a>
+    <small>أعد جدولة التوصيل اليوم قبل إعادة الشحنة إلى المرسل.</small></div>
+  <div class="r"><small>falcon-express.example</small>
+    <a href="/demo/falcon-clean">فالكون إكسبريس | تتبع الشحنات</a>
+    <small>تتبع شحنتك برقم التتبع.</small></div>
+  <div class="r"><small>example.org</small>
+    <a href="#">نصائح لتفادي احتيال الشحنات</a>
+    <small>كيف تعرف أن رسالة الشحنة وهمية.</small></div>
+</main>
+<footer>صفحة بحث تجريبية لعرض «حارس» · كل العلامات والروابط وهمية</footer>
+<script>
+  const q = new URLSearchParams(location.search).get('q');
+  if (q) document.getElementById('q').value = q;
+</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "حارس | Haris",
+  "short_name": "Haris",
+  "version": "0.1.0",
+  "description": "يسبق الخداع… ويحمي قرارك. ينبّهك قبل إدخال بيانات حساسة في صفحة مشبوهة.",
+  "default_locale": "ar",
+  "icons": { "16": "icons/icon16.png", "48": "icons/icon48.png", "128": "icons/icon128.png" },
+  "permissions": ["storage", "tabs"],
+  "host_permissions": ["<all_urls>"],
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [{
+    "matches": ["http://*/*", "https://*/*"],
+    "js": ["analyzer.js", "content.js"],
+    "run_at": "document_idle"
+  }],
+  "action": { "default_popup": "popup.html", "default_title": "حارس" }
+}

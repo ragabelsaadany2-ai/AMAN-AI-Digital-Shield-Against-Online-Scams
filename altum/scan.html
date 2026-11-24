@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>حارس سكانر · فحص الروابط</title>
+<style>
+  :root{--navy:#0F1B33;--navy2:#16274A;--navy3:#24395F;--ink:#E9EEF6;--muted:#9FB0CB;--gold:#E3B04B;--red:#E5484D;--amber:#E3A008;--green:#3FB68B;--teal:#2BB3A0}
+  *{box-sizing:border-box} body{margin:0;background:#0B1426;color:var(--ink);font-family:'IBM Plex Sans Arabic',Tahoma,sans-serif}
+  header{display:flex;align-items:center;gap:14px;padding:18px 28px;border-bottom:1px solid var(--navy3)}
+  header h1{margin:0;font-size:26px} header h1 span{color:var(--teal)} header a{margin-inline-start:auto;color:var(--muted);font-size:14px}
+  main{max-width:1200px;margin:0 auto;padding:24px 28px}
+  textarea{width:100%;height:130px;background:var(--navy);color:var(--ink);border:1px solid var(--navy3);border-radius:12px;padding:14px;font-size:16px;direction:ltr;font-family:monospace}
+  .bar{display:flex;gap:14px;align-items:center;margin:12px 0 22px;flex-wrap:wrap}
+  button{background:var(--teal);color:#06231F;border:0;border-radius:10px;padding:12px 26px;font-size:17px;font-weight:bold;cursor:pointer;font-family:inherit}
+  button.ghost{background:var(--navy2);color:var(--muted)} label{color:var(--muted);font-size:14px}
+  .stats{display:flex;gap:12px;margin-inline-start:auto} .stat{background:var(--navy);border-radius:10px;padding:6px 14px;font-size:14px;color:var(--muted)} .stat b{color:var(--ink);font-size:18px}
+  .r{background:var(--navy);border:1px solid var(--navy3);border-radius:14px;padding:16px 18px;margin-bottom:12px;display:grid;grid-template-columns:96px 1fr auto;gap:16px;align-items:start}
+  .score{width:96px;height:96px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:bold;color:#fff}
+  .score b{font-size:30px;line-height:1} .score small{font-size:12px;margin-top:4px}
+  .phishing{background:var(--red)} .suspicious{background:var(--amber)} .safe{background:var(--green)}
+  .u{direction:ltr;text-align:right;font-family:monospace;font-size:15px;word-break:break-all}
+  .meta{color:var(--muted);font-size:13px;margin:4px 0 8px} .meta span{margin-inline-end:14px}
+  ul{margin:0;padding-inline-start:20px} li{margin:4px 0;font-size:15px;line-height:1.55} li small{display:block;color:var(--muted);direction:ltr;text-align:right}
+  .ev{color:var(--gold);font-size:14px;text-decoration:none;white-space:nowrap}
+  .empty{color:var(--muted);text-align:center;padding:40px}
+</style>
+</head>
+<body>
+<header><h1>حارس <span>سكانر</span> · فحص الروابط</h1><a href="/">← لوحة الشرطة</a></header>
+<main>
+  <textarea id="in" placeholder="ضع رابطاً أو أكثر، رابط في كل سطر">https://tamm-fines-pay.top/login
+https://www.tamm.abudhabi/en/life-events/individual/traffic-fines
+https://uaepass-verify.online/auth
+https://www.khaleejtimes.com/uae/how-to-pay-traffic-fines-with-uae-pass
+https://salik-ae-topup.shop</textarea>
+  <div class="bar">
+    <button id="go">افحص</button>
+    <label><input type="checkbox" id="online" checked> فحص متصل (تتبع التحويلات، محتوى الصفحة، عمر النطاق)</label>
+    <div class="stats" id="stats"></div>
+  </div>
+  <div id="out"><p class="empty">النتائج تظهر هنا مع أسباب كل حكم.</p></div>
+</main>
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+$('go').onclick = async () => {
+  const urls = $('in').value.split('\n').map(s => s.trim()).filter(Boolean);
+  if (!urls.length) return;
+  $('go').disabled = true; $('go').textContent = 'جارٍ الفحص…';
+  $('out').innerHTML = '<p class="empty">جارٍ فحص ' + urls.length + ' رابط…</p>';
+  try {
+    const res = await (await fetch('/api/scan', {method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({urls, online: $('online').checked})})).json();
+    const n = l => res.filter(r => r.label === l).length;
+    $('stats').innerHTML = `<span class="stat">احتيالي <b>${n('phishing')}</b></span><span class="stat">مشبوه <b>${n('suspicious')}</b></span><span class="stat">آمن <b>${n('safe')}</b></span>`;
+    $('out').innerHTML = res.map(r => `
+      <div class="r">
+        <div class="score ${r.label}"><b>${r.score}</b><small>${esc(r.label_ar)}</small></div>
+        <div>
+          <div class="u">${esc(r.input)}</div>
+          <div class="meta">${r.final_url !== r.url ? `<span>← ${esc(r.final_url)}</span>` : ''}${r.impersonates ? `<span>يقلّد: <b>${esc(r.impersonates)}</b></span>` : ''}${r.trusted ? `<span>✓ موثوق: ${esc(r.trusted)}</span>` : ''}${r.infra && r.infra.whois && r.infra.whois.created ? `<span>تاريخ التسجيل: ${esc(r.infra.whois.created.slice(0,10))}</span>` : ''}<span>${r.duration_ms} ms</span></div>
+          ${r.signals.length ? '<ul>' + r.signals.map(s => `<li>${esc(s.ar)}<small>${esc(s.en)}</small></li>`).join('') + '</ul>' : '<div class="meta">لا مؤشرات خطر.</div>'}
+        </div>
+        ${r.label !== 'safe' ? `<a class="ev" target="_blank" href="/evidence?url=${encodeURIComponent(r.input)}&online=${$('online').checked ? 1 : 0}">📄 حزمة الأدلة</a>` : '<span></span>'}
+      </div>`).join('');
+  } catch (e) { $('out').innerHTML = '<p class="empty">تعذّر الفحص: ' + esc(e) + '</p>'; }
+  $('go').disabled = false; $('go').textContent = 'افحص';
+};
+</script>
+</body>
+</html>
